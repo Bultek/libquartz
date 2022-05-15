@@ -7,3 +7,7 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8.5"
+tokio = "1.18.2"
+reqwest = "0.11.10"
+magic-crypt = "3.1.10"
+colored = "2.0.0"
