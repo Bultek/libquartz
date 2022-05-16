@@ -4,6 +4,8 @@ use std::{collections::HashMap};
 use serde_json::{Value, json};
 use tokio;
 use serde::{Serialize, Deserialize};
+use futures::executor::block_on;
+use crate::encryption::decrypt_string;
 
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -11,6 +13,25 @@ pub struct messages {
     pub messages: Vec<String>,
     pub senders: Vec<String>
 }
+
+pub fn decrypt_msgs(msgs: messages, key: String) -> messages {
+    let mut decrypted_msgs = messages {
+        messages: Vec::new(),
+        senders: Vec::new()
+    };
+    for ms in msgs.senders {
+        let k = String::from(&key);
+        let dec = decrypt_string(k, ms);
+        decrypted_msgs.senders.push(dec);
+    }
+    for ms in msgs.messages {
+        let k = String::from(&key);
+        let dec = decrypt_string(k, ms);
+        decrypted_msgs.messages.push(dec);
+    }
+    decrypted_msgs
+}
+
 
 
 pub async fn get_msgs_encrypted(server: String, contact: String) -> messages {
