@@ -102,12 +102,12 @@ pub async fn send_msg(
     // Returns true if everything went well
     let message = crate::encryption::encrypt_string(key.clone(), msg);
     let client = Client::new();
-    let adress = crate::encryption::encrypt_string(key.clone(), contact);
+    let address = crate::encryption::encrypt_string(key.clone(), contact);
     let author = crate::encryption::encrypt_string(key.clone(), sender);
     // Create a proper .JSON object
     let mut data = HashMap::new();
     data.insert("message", message);
-    data.insert("contact", adress);
+    data.insert("contact", address);
     data.insert("sender", author);
     // Send the message
     let res = client.post(server).json(&data).send().await.unwrap();
