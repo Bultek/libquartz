@@ -4,7 +4,7 @@ Quartz protocols and backend that are using qkeys (quartz keys)
 
 ## Adding to your project
 * import by cloning the repo into your project
-* add ```libquartz = {path = "<yourpath"}``` to Cargo.toml (support for other languages isn't tested yet + we didn't add ```no_mangle``` flag to all functions)
+* add ```libquartz = {path = "<yourpath>"}``` to Cargo.toml (support for other languages isn't tested yet + we didn't add ```no_mangle``` flag to all functions)
 * add ```use libquartz::*``` to your rust project's file
 
 
