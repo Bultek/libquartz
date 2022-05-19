@@ -3,8 +3,14 @@ name = "libquartz"
 version = "0.1.0"
 edition = "2021"
 license = "BSD-2-Clause"
-
+authors = ["Demir Yerli <mrquantumoff@protonmail.com>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+
+[lib]
+# Generate all libs available
+crate-type = ["cdylib", "staticlib", "rlib"]
 
 [dependencies]
 rand = "0.8.5"

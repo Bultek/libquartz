@@ -1,10 +1,13 @@
 //use colored::*;
-use libquartz::*;
 use std::{env, fs::*};
 use futures::executor::block_on;
+use libquartz::*;
 use tokio;
+
+
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[test]
+async fn main() {
     // Check if ~/.qkey exists
     #[allow(deprecated)]
     let home_dir = env::home_dir().unwrap();
@@ -18,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let qkey = qkey_path.into_os_string().into_string().unwrap();
     let key = std::fs::read_to_string(qkey).unwrap();
     if keytools::check_if_key_is_valid(&key) == false {
-        Err("Key isn't valid".to_string())?;
+        panic!("Key isn't valid");
     }
     let k = key.clone();
     let msg = encryption::encrypt_string(String::from(&key),"Hello World!".to_string());
@@ -50,5 +53,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     for i in 0..d.messages.len() {
         println!("{} - {}",d.senders[i], d.messages[i]);
     }
-    Ok(())
 }
