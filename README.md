@@ -2,11 +2,14 @@
 Quartz protocols and backend that are using qkeys (quartz keys)
 
 
-## Adding to your project
+## Adding to your rust project
 * import by cloning the repo into your project
-* add ```libquartz = {path = "<yourpath>"}``` to Cargo.toml (support for other languages isn't tested yet + we didn't add ```no_mangle``` flag to all functions)
+* add ```libquartz = {path = "<yourpath>"}``` to Cargo.toml
 * add ```use libquartz::*``` to your rust project's file
 
+
+## Adding to other languages
+* We don't actually track support for other languages, but all functions have ```no_mangle``` attribute, so you can compile libquartz to .so/.dll file and add it to your project
 
 ## Shortly about keys (qkeys)
 * We recommend generating keys using the ```keytools::gen_key();``` function
