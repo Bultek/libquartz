@@ -2,7 +2,8 @@ use colored::*;
 use rand::{self, random};
 
 
-
+#[allow(unused_attributes)]
+#[no_mangle]
 #[allow(dead_code)]
 fn rand_string(length: i32) -> String {
     (0..length)
@@ -10,6 +11,8 @@ fn rand_string(length: i32) -> String {
         .collect()
 }
 
+#[allow(unused_attributes)]
+#[no_mangle]
 #[allow(dead_code)]
 pub fn check_if_key_is_valid(key: &str) -> bool {
     if key.len() != 45 {
@@ -51,6 +54,8 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
         }
     }
 
+#[allow(unused_attributes)]
+#[no_mangle]
 pub fn gen_key() -> String {
     let mut key: String = rand_string(45);
     let mut is_valid = check_if_key_is_valid(&key);

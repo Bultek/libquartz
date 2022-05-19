@@ -5,6 +5,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
+
+#[allow(unused_attributes)]
+#[no_mangle]
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(non_camel_case_types)]
 pub struct messages {
@@ -12,14 +15,16 @@ pub struct messages {
     pub messages: Vec<String>,
     pub senders: Vec<String>,
 }
-
+#[allow(unused_attributes)]
+#[no_mangle]
 #[allow(non_camel_case_types)]
 pub struct messages_nocontacts {
     pub messages: Vec<String>,
     pub senders: Vec<String>,
 }
 
-
+#[allow(unused_attributes)]
+#[no_mangle]
 impl messages_nocontacts {
     pub fn from(msgs: messages) {
         let mut _m: messages_nocontacts = messages_nocontacts {
@@ -28,7 +33,8 @@ impl messages_nocontacts {
         };
     } 
 }
-
+#[allow(unused_attributes)]
+#[no_mangle]
 pub fn decrypt_msgs(msgs: messages_nocontacts, key: String) -> messages_nocontacts {
     let mut decrypted_msgs = messages_nocontacts {
         messages: Vec::new(),
@@ -46,7 +52,8 @@ pub fn decrypt_msgs(msgs: messages_nocontacts, key: String) -> messages_nocontac
     }
     decrypted_msgs
 }
-
+#[allow(unused_attributes)]
+#[no_mangle]
 pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_nocontacts {
     // Create a get request to the server
     let client = reqwest::Client::new();
@@ -91,6 +98,7 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
     }
 }
 
+#[no_mangle]
 #[allow(dead_code)]
 pub async fn send_msg(
     server: String,
