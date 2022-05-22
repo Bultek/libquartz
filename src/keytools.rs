@@ -1,7 +1,6 @@
 use colored::*;
 use rand::{self, random};
 
-
 #[allow(unused_attributes)]
 #[no_mangle]
 #[allow(dead_code)]
@@ -16,43 +15,42 @@ fn rand_string(length: i32) -> String {
 #[allow(dead_code)]
 pub fn check_if_key_is_valid(key: &str) -> bool {
     if key.len() != 45 {
-            println!(
-                "{}{}{}",
-                "Key isn't valid: ".bright_red(),
-                key.len(),
-                " characters long.".bright_red()
-            );
-            return false;
-        }
-        let mut nums: i32 = 0;
-        for c in key.chars() {
-            if c == '0'
-                || c == '1'
-                || c == '2'
-                || c == '3'
-                || c == '4'
-                || c == '5'
-                || c == '6'
-                || c == '7'
-                || c == '8'
-                || c == '9'
-            {
-                nums += 1;
-            }
-        }
-        if nums != 12 {
-            println!(
-                "{}{}{}",
-                "Key isn't valid: ".bright_red(),
-                nums,
-                " numbers found.".bright_red()
-            );
-            return false;
-        }
-        else {
-            return true;
+        println!(
+            "{}{}{}",
+            "Key isn't valid: ".bright_red(),
+            key.len(),
+            " characters long.".bright_red()
+        );
+        return false;
+    }
+    let mut nums: i32 = 0;
+    for c in key.chars() {
+        if c == '0'
+            || c == '1'
+            || c == '2'
+            || c == '3'
+            || c == '4'
+            || c == '5'
+            || c == '6'
+            || c == '7'
+            || c == '8'
+            || c == '9'
+        {
+            nums += 1;
         }
     }
+    if nums != 12 {
+        println!(
+            "{}{}{}",
+            "Key isn't valid: ".bright_red(),
+            nums,
+            " numbers found.".bright_red()
+        );
+        return false;
+    } else {
+        return true;
+    }
+}
 
 #[allow(unused_attributes)]
 #[no_mangle]
