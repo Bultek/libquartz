@@ -52,7 +52,6 @@ pub fn decrypt_msgs(msgs: messages_nocontacts, key: String) -> messages_nocontac
     decrypted_msgs
 }
 
-
 #[allow(unused_attributes)]
 #[no_mangle]
 pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_nocontacts {
@@ -124,11 +123,7 @@ pub async fn send_msg(
     data.insert("sender", author);
     // Send the message
     #[allow(unreachable_code)]
-    let _res = client
-        .post(server)
-        .json(&data)
-        .send()
-        .await;
+    let _res = client.post(server).json(&data).send().await;
     match _res {
         Ok(_res) => {
             if _res.status().is_success() {
