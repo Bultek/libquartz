@@ -5,7 +5,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
-
 #[allow(unused_attributes)]
 #[no_mangle]
 #[derive(Debug, Serialize, Deserialize)]
@@ -31,7 +30,7 @@ impl messages_nocontacts {
             senders: msgs.senders,
             messages: msgs.messages,
         };
-    } 
+    }
 }
 #[allow(unused_attributes)]
 #[no_mangle]
@@ -60,40 +59,44 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
     let r = client.get(server).send().await;
     match r {
         Ok(response) => {
-            let body = response.text().await.unwrap();
-            let json: Value = serde_json::from_str(&body).unwrap();
-            let messages: Vec<String> = serde_json::from_value(json["messages"].clone()).unwrap();
-            let senders: Vec<String> = serde_json::from_value(json["senders"].clone()).unwrap();
-            let contacts: Vec<String> = serde_json::from_value(json["contacts"].clone()).unwrap();
-            let msgs = messages {
-                contact: contacts,
-                messages: messages,
-                senders: senders,
-            };
-            println!("{}", &body);
-            let mut _m: messages_nocontacts = messages_nocontacts {
-                senders: Vec::new(),
-                messages: Vec::new(),
-            };
-            // remove useless messages
+            let body = response.text().await;
+            match body {
+                Ok(body) => {
+                    let json: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
+                    let messages: Vec<String> = serde_json::from_value(json["messages"].clone())
+                        .unwrap_or(vec!["".to_string()]);
+                    let senders: Vec<String> = serde_json::from_value(json["senders"].clone())
+                        .unwrap_or(vec!["".to_string()]);
+                    let contacts: Vec<String> = serde_json::from_value(json["contacts"].clone())
+                        .unwrap_or(vec!["".to_string()]);
+                    let msgs = messages {
+                        contact: contacts,
+                        messages: messages,
+                        senders: senders,
+                    };
+                    println!("{}", &body);
+                    let mut _m: messages_nocontacts = messages_nocontacts {
+                        senders: Vec::new(),
+                        messages: Vec::new(),
+                    };
+                    for i in 0..msgs.messages.len() {
+                        if msgs.contact[i] == contact {
+                            _m.messages.push(msgs.messages[i].clone());
+                            _m.senders.push(msgs.senders[i].clone());
+                        }
+                    }
 
-            for i in 0..msgs.messages.len() {
-                if msgs.contact[i] == contact {
-                        _m.messages.push(msgs.messages[i].clone());
-                        _m.senders.push(msgs.senders[i].clone());
+                    return _m;
+                }
+                Err(_e) => {
+                    panic!("{}", "Error getting body");
                 }
             }
-
-            return _m;
         }
 
         Err(e) => {
             println!("{}", e);
-            let errmsgs = messages_nocontacts {
-                messages: vec!["QUARTZ_ERRORWHILEPARSINGMESSAGES".to_string()],
-                senders: vec!["QUARTZ_ERRORWHILEPARSINGMESSAGES".to_string()],
-            };
-            return errmsgs;
+            panic!("QUARTZ_ERRORWHILEPARSINGMESSAGES");
         }
     }
 }
@@ -118,7 +121,12 @@ pub async fn send_msg(
     data.insert("contact", address);
     data.insert("sender", author);
     // Send the message
-    let res = client.post(server).json(&data).send().await.unwrap();
+    let res = client
+        .post(server)
+        .json(&data)
+        .send()
+        .await
+        .unwrap_or(panic!("QUARTZ_ERRORWHILESENDINGMESSAGE"));
     if res.status().is_success() {
         return true;
     } else {
