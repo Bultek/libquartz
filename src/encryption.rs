@@ -6,8 +6,7 @@ use magic_crypt::{new_magic_crypt, MagicCryptTrait};
 #[allow(dead_code)]
 pub fn encrypt_string(key: String, text: String) -> String {
     let mc = new_magic_crypt!(key, 256);
-    let encrypted = mc.encrypt_str_to_base64(text);
-    return encrypted;
+    mc.encrypt_str_to_base64(text)
 }
 
 #[allow(unused_attributes)]
@@ -19,10 +18,10 @@ pub fn decrypt_string(key: String, encrypted_data: String) -> String {
     match decrypted {
         Err(e) => {
             println!("Detailed Error: {}", e.to_string().bright_red());
-            return "!!!Invalid Key!!!".to_string();
+            "!!!Invalid Key!!!".to_string()
         }
         Ok(s) => {
-            return s;
+            s
         }
     }
 }

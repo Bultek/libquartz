@@ -64,16 +64,16 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
             match body {
                 Ok(body) => {
                     let json: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
-                    let messages: Vec<String> = serde_json::from_value(json["messages"].clone())
-                        .unwrap_or(vec!["".to_string()]);
-                    let senders: Vec<String> = serde_json::from_value(json["senders"].clone())
-                        .unwrap_or(vec!["".to_string()]);
-                    let contacts: Vec<String> = serde_json::from_value(json["contacts"].clone())
-                        .unwrap_or(vec!["".to_string()]);
+                    let messagess: Vec<String> = serde_json::from_value(json["messages"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
+                    let senderss: Vec<String> = serde_json::from_value(json["senders"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
+                    let contactss: Vec<String> = serde_json::from_value(json["contacts"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
                     let msgs = messages {
-                        contact: contacts,
-                        messages: messages,
-                        senders: senders,
+                        contact: contactss,
+                        messages: messagess,
+                        senders: senderss,
                     };
                     println!("{}", &body);
                     let mut _m: messages_nocontacts = messages_nocontacts {
@@ -87,7 +87,7 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
                         }
                     }
 
-                    return _m;
+                    _m
                 }
                 Err(_e) => {
                     panic!("{}", "Error getting body");
@@ -126,14 +126,10 @@ pub async fn send_msg(
     let _res = client.post(server).json(&data).send().await;
     match _res {
         Ok(_res) => {
-            if _res.status().is_success() {
-                return true;
-            } else {
-                return false;
-            }
+            _res.status().is_success()
         }
         Err(_e) => {
-            return false;
+            false
         }
     }
 }

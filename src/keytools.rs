@@ -21,7 +21,7 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
             key.len(),
             " characters long.".bright_red()
         );
-        return false;
+        return false
     }
     let mut nums: i32 = 0;
     for c in key.chars() {
@@ -46,9 +46,9 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
             nums,
             " numbers found.".bright_red()
         );
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
@@ -57,9 +57,9 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
 pub fn gen_key() -> String {
     let mut key: String = rand_string(45);
     let mut is_valid = check_if_key_is_valid(&key);
-    while is_valid == false {
+    while !is_valid {
         key = rand_string(45);
         is_valid = check_if_key_is_valid(&key);
     }
-    return key;
+    key
 }
