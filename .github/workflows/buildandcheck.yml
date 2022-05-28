@@ -20,3 +20,7 @@ jobs:
       run: cargo build --verbose
     - name: Check
       run: cargo check --verbose
+    - name: Install Clippy
+      run: rustup component add clippy
+    - name: Run Clippy
+      run: cargo clippy

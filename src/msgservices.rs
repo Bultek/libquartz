@@ -51,6 +51,7 @@ pub fn decrypt_msgs(msgs: messages_nocontacts, key: String) -> messages_nocontac
     }
     decrypted_msgs
 }
+
 #[allow(unused_attributes)]
 #[no_mangle]
 pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_nocontacts {
@@ -63,16 +64,16 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
             match body {
                 Ok(body) => {
                     let json: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
-                    let messages: Vec<String> = serde_json::from_value(json["messages"].clone())
-                        .unwrap_or(vec!["".to_string()]);
-                    let senders: Vec<String> = serde_json::from_value(json["senders"].clone())
-                        .unwrap_or(vec!["".to_string()]);
-                    let contacts: Vec<String> = serde_json::from_value(json["contacts"].clone())
-                        .unwrap_or(vec!["".to_string()]);
+                    let messagess: Vec<String> = serde_json::from_value(json["messages"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
+                    let senderss: Vec<String> = serde_json::from_value(json["senders"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
+                    let contactss: Vec<String> = serde_json::from_value(json["contacts"].clone())
+                        .unwrap_or_else(|_| vec!["".to_string()]);
                     let msgs = messages {
-                        contact: contacts,
-                        messages: messages,
-                        senders: senders,
+                        contact: contactss,
+                        messages: messagess,
+                        senders: senderss,
                     };
                     println!("{}", &body);
                     let mut _m: messages_nocontacts = messages_nocontacts {
@@ -86,7 +87,7 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
                         }
                     }
 
-                    return _m;
+                    _m
                 }
                 Err(_e) => {
                     panic!("{}", "Error getting body");
@@ -121,15 +122,14 @@ pub async fn send_msg(
     data.insert("contact", address);
     data.insert("sender", author);
     // Send the message
-    let res = client
-        .post(server)
-        .json(&data)
-        .send()
-        .await
-        .unwrap_or(panic!("QUARTZ_ERRORWHILESENDINGMESSAGE"));
-    if res.status().is_success() {
-        return true;
-    } else {
-        return false;
+    #[allow(unreachable_code)]
+    let _res = client.post(server).json(&data).send().await;
+    match _res {
+        Ok(_res) => {
+            _res.status().is_success()
+        }
+        Err(_e) => {
+            false
+        }
     }
 }
