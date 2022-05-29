@@ -1,4 +1,4 @@
-# libquartz
+# libquartz ![LOGO](https://github.com/mrquantumoff/libquartz/raw/master/quartz.png)
 Quartz protocols and backend that are using qkeys (quartz keys)
 
 
