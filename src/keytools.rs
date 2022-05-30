@@ -1,4 +1,3 @@
-use colored::*;
 use rand::{self, random};
 
 #[allow(unused_attributes)]
