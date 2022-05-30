@@ -1,4 +1,5 @@
 use rand::{self, random};
+use std::{env,fs,path};
 
 #[allow(unused_attributes)]
 #[no_mangle]
@@ -36,6 +37,19 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
         false
     } else {
         true
+    }
+}
+
+#[allow(unused_attributes)]
+#[no_mangle]
+pub fn get_default_key() -> String {
+    #[allow(deprecated)]
+    let home = env::home_dir().unwrap();    
+    let cfgpath = path::Path::new(&home).join(".config").join("libquartz");
+    let out = fs::read_to_string(cfgpath.join("defaultkey"));
+    match out {
+        Ok(out) => { out }
+        Err(_) => { panic!("NO DEFAULT KEY SET! PLEASE INSTALL QUARTZCTL AND SET ONE")}
     }
 }
 

@@ -1,4 +1,3 @@
-use colored::*;
 use magic_crypt::{new_magic_crypt, MagicCryptTrait};
 
 #[allow(unused_attributes)]
@@ -17,7 +16,6 @@ pub fn decrypt_string(key: String, encrypted_data: String) -> String {
     let decrypted = mc.decrypt_base64_to_string(encrypted_data);
     match decrypted {
         Err(e) => {
-            println!("Detailed Error: {}", e.to_string().bright_red());
             "!!!Invalid Key!!!".to_string()
         }
         Ok(s) => {
