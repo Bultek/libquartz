@@ -1,4 +1,3 @@
-use colored::*;
 use rand::{self, random};
 
 #[allow(unused_attributes)]
@@ -15,12 +14,6 @@ fn rand_string(length: i32) -> String {
 #[allow(dead_code)]
 pub fn check_if_key_is_valid(key: &str) -> bool {
     if key.len() != 45 {
-        println!(
-            "{}{}{}",
-            "Key isn't valid: ".bright_red(),
-            key.len(),
-            " characters long.".bright_red()
-        );
         return false
     }
     let mut nums: i32 = 0;
@@ -40,12 +33,6 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
         }
     }
     if nums != 12 {
-        println!(
-            "{}{}{}",
-            "Key isn't valid: ".bright_red(),
-            nums,
-            " numbers found.".bright_red()
-        );
         false
     } else {
         true
