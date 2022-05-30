@@ -15,7 +15,7 @@ pub fn decrypt_string(key: String, encrypted_data: String) -> String {
     let mc = new_magic_crypt!(key, 256);
     let decrypted = mc.decrypt_base64_to_string(encrypted_data);
     match decrypted {
-        Err(e) => {
+        Err(_) => {
             "!!!Invalid Key!!!".to_string()
         }
         Ok(s) => {
