@@ -5,7 +5,7 @@ edition = "2021"
 license = "BSD-2-Clause"
 authors = ["Demir Yerli <mrquantumoff@protonmail.com>"]
 description = "Secure communication protocols"
-
+repository = "https://github.com/Bultek/libquartz.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 
