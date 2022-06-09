@@ -75,7 +75,6 @@ pub async fn get_msgs_encrypted(server: String, contact: String) -> messages_noc
                         messages: messagess,
                         senders: senderss,
                     };
-                    println!("{}", &body);
                     let mut _m: messages_nocontacts = messages_nocontacts {
                         senders: Vec::new(),
                         messages: Vec::new(),
