@@ -1,5 +1,5 @@
 use rand::{self, random};
-use std::{env,fs,path};
+use std::{env, fs, path};
 
 #[allow(unused_attributes)]
 #[no_mangle]
@@ -15,7 +15,7 @@ fn rand_string(length: i32) -> String {
 #[allow(dead_code)]
 pub fn check_if_key_is_valid(key: &str) -> bool {
     if key.len() != 45 {
-        return false
+        return false;
     }
     let mut nums: i32 = 0;
     for c in key.chars() {
@@ -44,12 +44,14 @@ pub fn check_if_key_is_valid(key: &str) -> bool {
 #[no_mangle]
 pub fn get_default_key() -> String {
     #[allow(deprecated)]
-    let home = env::home_dir().unwrap();    
+    let home = env::home_dir().unwrap();
     let cfgpath = path::Path::new(&home).join(".config").join("libquartz");
     let out = fs::read_to_string(cfgpath.join("defaultkey"));
     match out {
-        Ok(out) => { out }
-        Err(_) => { panic!("NO DEFAULT KEY SET! PLEASE INSTALL QUARTZCTL AND SET ONE")}
+        Ok(out) => out,
+        Err(_) => {
+            panic!("NO DEFAULT KEY SET! PLEASE INSTALL QUARTZCTL AND SET ONE")
+        }
     }
 }
 
