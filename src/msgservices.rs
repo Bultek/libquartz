@@ -124,11 +124,7 @@ pub async fn send_msg(
     #[allow(unreachable_code)]
     let _res = client.post(server).json(&data).send().await;
     match _res {
-        Ok(_res) => {
-            _res.status().is_success()
-        }
-        Err(_e) => {
-            false
-        }
+        Ok(_res) => _res.status().is_success(),
+        Err(_e) => false,
     }
 }
